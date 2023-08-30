@@ -36,7 +36,6 @@ public class JobData {
 
         for (HashMap<String, String> row : allJobs) {
             String aValue = row.get(field);
-
             if (!values.contains(aValue)) {
                 values.add(aValue);
             }
@@ -74,8 +73,9 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+//            CASE INSENSITIVE
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -95,7 +95,20 @@ public class JobData {
         loadData();
 
         // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> jobsWithValue = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            for (String key : row.keySet()) {
+                String keyValue = row.get(key);
+//                CASE INSENSITIVE
+                if (keyValue.toLowerCase().contains(value.toLowerCase())) {
+                    jobsWithValue.add(row);
+                    break;
+                }
+            }
+        }
+
+        return jobsWithValue;
     }
 
     /**
@@ -132,6 +145,7 @@ public class JobData {
 
             // flag the data as loaded, so we don't do it twice
             isDataLoaded = true;
+
 
         } catch (IOException e) {
             System.out.println("Failed to load job data");
